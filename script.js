@@ -72,25 +72,31 @@ document.addEventListener('DOMContentLoaded', function () {
     var loader = document.getElementById('redirect-loader');
 
     function resetPageState() {
-        content.classList.remove('fade-out');
-        loader.style.display = 'none';
+        if (content) {
+            content.classList.remove('fade-out');
+        }
+        if (loader) {
+            loader.style.display = 'none';
+        }
     }
 
-    // Reset the content and loader visibility when the page is loaded or shown
     window.addEventListener('pageshow', resetPageState);
-    resetPageState(); // Reset state when the script runs initially
+    resetPageState();
 
     animatedLinks.forEach(function (link) {
         link.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent the default anchor behavior
+            event.preventDefault();
 
-            content.classList.add('fade-out');
-            loader.style.display = 'block';
+            if (content) {
+                content.classList.add('fade-out');
+            }
+            if (loader) {
+                loader.style.display = 'block';
+            }
 
-            // Wait for the animation to finish before redirecting
             setTimeout(function () {
                 window.location.href = link.href;
-            }, 1000); // 1000ms is the same as the animation duration
+            }, 1000);
         });
     });
 });
@@ -142,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener("DOMContentLoaded", function() {
     // Load header
-    fetch('/header.html')
+    fetch('header.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('header').innerHTML = data;
@@ -150,14 +156,14 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
     // Load footer
-    fetch('/footer.html')
+    fetch('footer.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('footer').innerHTML = data;
         });
 
 
-        fetch('/study material/faq-note.html')
+        fetch('study material/faq-note.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('faq-note').innerHTML = data;
@@ -207,20 +213,24 @@ function initializeMenuToggle() {
 
 window.addEventListener('load', function () {
     const loadingScreen = document.getElementById('loading-screen');
+    if (!loadingScreen) return; // If the loading screen element doesn't exist, exit the function
     setTimeout(function () {
         loadingScreen.style.display = 'none';
-    },); // 1000 milliseconds = 1 second
+    },500); // 1000 milliseconds = 1 second
 });
 
 
 // Initializing ScrollReveal
-ScrollReveal().reveal('.reveal', {
-    duration: 500,
-    distance: '50px',
-    easing: 'ease-in-out',
-    origin: 'bottom',
-    reset: true
-});
+if (typeof ScrollReveal !== 'undefined') {
+    ScrollReveal().reveal('.reveal', {
+        duration: 500,
+        distance: '50px',
+        easing: 'ease-in-out',
+        origin: 'bottom',
+        reset: true
+    });
+}
+
 
 
 
