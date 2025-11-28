@@ -148,19 +148,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener("DOMContentLoaded", function() {
     // Load header
-    fetch('header.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('header').innerHTML = data;
-            initializeMenuToggle(); // Ensure toggle works after loading
-        });
+  const isInsidePages = window.location.pathname.includes("/pages/");
+  const basePath = isInsidePages ? ".." : ".";
+    const headerEl = document.getElementById('header');
+    if (headerEl) {
+        fetch(`${basePath}/header.html`)
+            .then(res => res.text())
+            .then(html => {
+                headerEl.innerHTML = html;
+                initializeMenuToggle();
+            });
+    }
 
     // Load footer
-    fetch('footer.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('footer').innerHTML = data;
-        });
+    const footerEl = document.getElementById('footer');
+    if (footerEl) {
+        fetch(`${basePath}/footer.html`)
+            .then(res => res.text())
+            .then(html => {
+                footerEl.innerHTML = html;
+            });
+    }
 
 
         fetch('study material/faq-note.html')
@@ -266,6 +274,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 //notes page end
+
 
 
 
